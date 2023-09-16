@@ -1,6 +1,5 @@
 package ru.otus.settings;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,7 +13,8 @@ public class Settings implements ISettings {
         Properties properties = new Properties();
         Map<String, String> result = new HashMap<>();
         try {
-            properties.load(new FileReader( System.getProperty("user.dir") + "/src/main/java/ru/otus/settings/db.properties"));
+            properties.load(new FileReader( System.getProperty("user.dir") +
+                    "/src/main/java/ru/otus/settings/db.properties"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -24,4 +24,24 @@ public class Settings implements ISettings {
         }
         return result;
     }
+
+    @Override
+    public Map<String, Integer> getApplicationEntitySettings() {
+        Properties properties = new Properties();
+        Map<String, Integer> result = new HashMap<>();
+        try {
+            properties.load(new FileReader( System.getProperty("user.dir") +
+                    "/src/main/java/ru/otus/settings/appEntityCount.properties"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        for(String key: properties.stringPropertyNames()) {
+            Integer value = Integer.parseInt(properties.getProperty(key));
+            result.put(key, value);
+        }
+        return result;
+    }
+
+
 }

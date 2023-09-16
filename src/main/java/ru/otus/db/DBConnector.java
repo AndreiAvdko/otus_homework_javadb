@@ -1,10 +1,8 @@
 package ru.otus.db;
 
-import org.apache.commons.lang3.StringUtils;
 import ru.otus.settings.Settings;
 
 import java.sql.*;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +25,7 @@ public class DBConnector implements IDBConnector {
             dbConnector = new DBConnector();
             dbConnector.settings = new Settings().getDbSettings();
         }
+
         return dbConnector;
     }
 
@@ -62,8 +61,17 @@ public class DBConnector implements IDBConnector {
         }
     }
 
-    public List executeQuery() {
-        return null;
+    public ResultSet executeQuery(String query) {
+        this.open();
+        ResultSet result = null;
+        try {
+            result = statement.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // this.close();
+        }
+        return result;
     }
 
     public void execute(String sqlRequest) {
@@ -74,57 +82,6 @@ public class DBConnector implements IDBConnector {
             e.printStackTrace();
         } finally {
             this.close();
-        }
-    }
-
-    public List executeQueryWithPreparedStmt(String sqlRequest, List<String> parameters, int entityParamsNumber) {
-        List<List<String>> listStringEntity = new LinkedList<>();
-        this.open();
-        try (PreparedStatement statement =
-                     connection.prepareStatement("SELECT * FROM \"Student\" " + ";")) {
-            // Если есть параметры для запроса
-            if (parameters.size() > 0) {
-                for (int i = 0; i < parameters.size(); i++) {
-                    if (StringUtils.isNumeric(parameters.get(i))) {
-                        statement.setInt(i+1, Integer.parseInt(parameters.get(i)));
-                    } else {
-                        statement.setString(i+1, parameters.get(i));
-                    }
-                }
-            }
-            // Выполняем запрос
-            ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()) {
-                List<String> entityParams = new LinkedList<>();
-                for (int i = 0; i < entityParamsNumber; i++) {
-                    try {
-                        entityParams.add(String.valueOf(resultSet.getInt(i+1)));
-                    } catch (SQLException e) {
-                        entityParams.add(resultSet.getString(i+1));
-                    }
-                }
-                listStringEntity.add(entityParams);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return listStringEntity;
-    }
-
-    public void executeWithPreparedStmnt(String sqlRequest, List<String> parameters) {
-        this.open();
-        try (PreparedStatement statement =
-                     connection.prepareStatement(sqlRequest)) {
-            for (int i = 0; i < parameters.size(); i++) {
-                if (StringUtils.isNumeric(parameters.get(i))) {
-                    statement.setInt(i+1, Integer.parseInt(parameters.get(i)));
-                } else {
-                    statement.setString(i+1, parameters.get(i));
-                }
-            }
-            statement.execute();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 }
