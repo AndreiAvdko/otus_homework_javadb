@@ -9,6 +9,7 @@ public interface IQuery {
     String insertTableQuery(String tableName, Map<String,String> fieldsAndValues);
 
     String selectAllFromTableQuery(String tableName);
+    Integer howMuchEntityInTableQuery(String tableName);
 
     // String updateTableQuery();
 

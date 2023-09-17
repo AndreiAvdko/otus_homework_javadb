@@ -33,8 +33,6 @@ public class MetaClassData {
         return tableFields;
     }
 
-
-
     public static Map<String, String> getFieldsAndValues(Entity entity) {
         Map<String, String> fieldsAndValues = new HashMap<>();
 

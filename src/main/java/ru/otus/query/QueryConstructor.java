@@ -1,7 +1,12 @@
 package ru.otus.query;
 
 import org.apache.commons.lang3.StringUtils;
+import ru.otus.db.DBConnector;
+import ru.otus.entity.Entity;
 
+import java.beans.Introspector;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Map;
 
 public class QueryConstructor implements IQuery {
@@ -56,6 +61,47 @@ public class QueryConstructor implements IQuery {
     public String selectAllFromTableQuery(String tableName) {
         String sqlQuery = String.format("SELECT * FROM \"%s\";", tableName);
         return sqlQuery;
+    }
+
+    @Override
+    public Integer howMuchEntityInTableQuery(String tableName) {
+        String sqlQuery = String.format("SELECT count(*) FROM \"%s\";", tableName);
+        Integer entityCount = 0;
+        try {
+            ResultSet result = DBConnector.getDbConnector().executeQuery(sqlQuery);
+            while (result.next()) {
+                entityCount = result.getInt("count");
+            }
+        } catch (SQLException e) {
+            System.out.println("Не удалось получить о количестве записей в таблице " + tableName);
+        }
+        return entityCount;
+    }
+
+    public String sortByConditionWhereFieldsEqualValues(String tableName, Map<String, String> fieldEqualVaue) {
+        String sqlQuery = String.format("SELECT * FROM \"%s\" ", tableName);
+        //SELECT * FROM "Student" where sex = 'М';
+        String whereQueryPart = "WHERE ";
+        for (Map.Entry<String, String> entry : fieldEqualVaue.entrySet()) {
+            whereQueryPart += String.format("%s = '%s' AND ", entry.getKey(), entry.getValue());
+        }
+        whereQueryPart = StringUtils.removeEnd(whereQueryPart, " AND ");
+        sqlQuery += whereQueryPart;
+        sqlQuery += ";";
+        return sqlQuery;
+    }
+
+    public String selectAllStudentsFromGroup(String groupName) {
+        String query = String.format("SELECT * FROM \"Student\" " +
+                "JOIN \"Group\" ON id_group = \"Group\".id " +
+                "WHERE id_group " +
+                "= (SELECT id FROM \"Group\" WHERE name = '%s');", groupName);
+        return query;
+    }
+
+    public String updateCuratorInGroupQuery(int groupId, int curatorId) {
+        String query = String.format("update \"Group\" set id_curator = %s where id = %s;", curatorId, groupId);
+        return query;
     }
 
 }
