@@ -12,6 +12,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+/*
+*   Класс, содержащий, метод для преобразования данных, полученных из БД в Swing-таблицу JTable
+ */
 public class TableCreator {
 
     public static JTable convertResultSetToJTable (ResultSet resultSet) throws SQLException {

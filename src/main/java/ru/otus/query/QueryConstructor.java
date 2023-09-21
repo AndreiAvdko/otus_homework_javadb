@@ -99,9 +99,15 @@ public class QueryConstructor implements IQuery {
         return query;
     }
 
-    public String updateCuratorInGroupQuery(int groupId, int curatorId) {
-        String query = String.format("update \"Group\" set id_curator = %s where id = %s;", curatorId, groupId);
-        return query;
+    public String updateCuratorInGroupQuery(String groupName, String curatorFio) {
+    return String.format("UPDATE \"Group\" SET id_curator = (SELECT id FROM \"Curator\" WHERE fio = '%s') " +
+                "WHERE \"Group\".id = (SELECT id FROM \"Group\" WHERE name = '%s');", curatorFio, groupName);
     }
+
+    public String currentGroupCurator (String groupName) {
+        return String.format("select * from \"Curator\" join \"Group\" on \"Curator\".id = id_curator where \"Group\".name = '%s';", groupName);
+    }
+
+
 
 }

@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class Application {
     Map<String, Integer> entityCount;
-    static VisualWindow window = new VisualWindow();
+    static MainWindow window;
     public Application() {
         entityCount = new Settings().getApplicationEntitySettings();
     }
@@ -56,6 +56,7 @@ public class Application {
     }
 
     public Application getRepresentationData() throws Exception {
+        window = new MainWindow();
         JTable table = new Student().convertToJTable();
         JTable table1 = new Curator().convertToJTable();
         JTable table2 = new Group().convertToJTable();
@@ -63,10 +64,6 @@ public class Application {
         window.addTable(table1, "Таблица Кураторы. Кол-во кураторов: " + new Curator().howMuchThisEntity());
         window.addTable(table2, "Таблица Группы. Количество групп: " + new Group().howMuchThisEntity());
         window.showWindow();
-        return this;
-    }
-
-    public Application mainWorkflow() {
         return this;
     }
 }

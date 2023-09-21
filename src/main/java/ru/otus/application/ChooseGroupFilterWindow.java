@@ -8,11 +8,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ComboBoxWindow extends JFrame {
-    ComboBoxWindow(String[] groupNames) {
+public class ChooseGroupFilterWindow extends JFrame {
+    ChooseGroupFilterWindow(String[] groupNames) {
         super("Выбрать группу");
         JPanel grid = new JPanel();
 

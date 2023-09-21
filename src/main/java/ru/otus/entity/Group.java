@@ -3,9 +3,12 @@ package ru.otus.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Setter;
+import ru.otus.db.DBConnector;
+import ru.otus.query.QueryConstructor;
 import ru.otus.settings.Settings;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Random;
 
@@ -20,7 +23,7 @@ public class Group implements Entity {
         Random random = new Random();
         try {
             Integer curatorCount = new Settings().getApplicationEntitySettings().get("Curator");
-            this.id_curator = random.nextInt(1, curatorCount);
+            this.id_curator = random.nextInt(1, curatorCount+1);
         } catch (Exception e) {
             this.id_curator = random.nextInt(1, 5);
         }
@@ -39,5 +42,12 @@ public class Group implements Entity {
                                    String.valueOf(id_curator),
                                    name};
         return objectAsArray;
+    }
+
+    public String getGroupCurator(String groupName) throws SQLException {
+        String query = new QueryConstructor().currentGroupCurator(groupName);
+        ResultSet result = DBConnector.getDbConnector().executeQuery(query);
+        result.next();
+        return result.getString("fio");
     }
 }

@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/*
+*   Класс, содержащий методы для получения мета-информации о класс
+ */
 public class MetaClassData {
     public static String getClassName(Class parameterClass) {
         String tableNameArr[] = parameterClass.getName().split("\\.");

@@ -8,13 +8,17 @@ import ru.otus.utils.MetaClassData;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+*   Класс для базовых действий с таблицами: создание, вставка, удаление
+*/
 public class PostgresTable implements ITable {
     static DBConnector dbConnector;
     Map<String, String> tableFields = new HashMap<>();
 
-    static Map<String,String> typeMatchingJavaToPostgres = new HashMap<String, String>(){{
-        put("String","varchar");
-        put("int","integer");
+    // Карта отображений типов Java на типы данных в Postgres
+    static Map<String,String> typeMatchingJavaToPostgres = new HashMap<>() {{
+        put("String", "varchar");
+        put("int", "integer");
     }};
 
     public PostgresTable() {

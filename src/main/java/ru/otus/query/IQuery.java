@@ -11,7 +11,4 @@ public interface IQuery {
     String selectAllFromTableQuery(String tableName);
     Integer howMuchEntityInTableQuery(String tableName);
 
-    // String updateTableQuery();
-
-
 }

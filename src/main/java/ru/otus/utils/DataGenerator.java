@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/*
+*   Класс, содержащий метод для генерации ФИО
+ */
 public class DataGenerator {
     public static Faker faker = new Faker(new Locale("ru"));
 

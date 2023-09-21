@@ -1,5 +1,4 @@
 package ru.otus.entity;
-
 import ru.otus.db.DBConnector;
 import ru.otus.query.QueryConstructor;
 import ru.otus.tables.PostgresTable;
@@ -12,11 +11,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public interface Entity {
-    int getId();
-
-
     String[] toArray();
-
     default public List<Entity> getAllEntity() throws SQLException {
         Class entityClass = this.getClass();
         List<Entity> entityList = new LinkedList<>();
@@ -49,17 +44,14 @@ public interface Entity {
         List<Entity> entitytList = this.getAllEntity();
 
         Object[] headers = Arrays.stream(this.getClass().getDeclaredFields()).map(Field::getName).toArray(x -> new String[x]);
-
         Object[][] rows = new Object[entitytList.size()][];
 
-
         String tableTitle = this.getClass().getSimpleName();
-        if (entitytList.size() > 0) {
+        if (!entitytList.isEmpty()) {
             for (int i = 0; i < entitytList.size(); i++) {
                 rows[i] = entitytList.get(i).toArray();
             }
-            JTable table = new JTable(rows, headers);
-            return table;
+            return new JTable(rows, headers);
         }
         return new JTable(rows, headers);
     }
