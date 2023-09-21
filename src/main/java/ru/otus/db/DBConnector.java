@@ -3,7 +3,6 @@ package ru.otus.db;
 import ru.otus.settings.Settings;
 
 import java.sql.*;
-import java.util.List;
 import java.util.Map;
 
 public class DBConnector implements IDBConnector {
@@ -68,8 +67,6 @@ public class DBConnector implements IDBConnector {
             result = statement.executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // this.close();
         }
         return result;
     }

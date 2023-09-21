@@ -2,7 +2,6 @@ package ru.otus.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ru.otus.db.DBConnector;
 import ru.otus.settings.Settings;
 import ru.otus.utils.DataGenerator;
 

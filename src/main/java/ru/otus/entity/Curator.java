@@ -24,8 +24,9 @@ public class Curator implements Entity {
 
     @Override
     public String[] toArray() {
-        String[] objectAsArray = { String.valueOf(id),
-                                    fio};
+        String[] objectAsArray = {
+                String.valueOf(id), fio
+        };
         return objectAsArray;
     }
 }

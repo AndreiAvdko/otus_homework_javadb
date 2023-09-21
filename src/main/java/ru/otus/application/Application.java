@@ -30,21 +30,18 @@ public class Application {
         PostgresTable postgresTable = new PostgresTable();
         for (String className : entityCount.keySet()) {
             for (int i = 0; i < entityCount.get(className); i++) {
-                Class entityClass;
                 try {
-                    entityClass = Class.forName("ru.otus.entity."+ className);
+                    Class entityClass = Class.forName("ru.otus.entity."+ className);
                     Object entity = entityClass.getDeclaredConstructor().newInstance();
                     postgresTable.insertTableEntry((Entity)entity);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    System.out.println("Не удалось вставить запись в таблицу");
                 }
-
-                // new PostgresTable().insertTableEntry();
             }
         }
         return this;
     }
-
     public void dropTables(){
         for (String className : entityCount.keySet()) {
             try {
@@ -55,8 +52,9 @@ public class Application {
         }
     }
 
-    public Application getRepresentationData() throws Exception {
+    public void getRepresentationData() {
         window = new MainWindow();
+
         JTable table = new Student().convertToJTable();
         JTable table1 = new Curator().convertToJTable();
         JTable table2 = new Group().convertToJTable();
@@ -64,6 +62,5 @@ public class Application {
         window.addTable(table1, "Таблица Кураторы. Кол-во кураторов: " + new Curator().howMuchThisEntity());
         window.addTable(table2, "Таблица Группы. Количество групп: " + new Group().howMuchThisEntity());
         window.showWindow();
-        return this;
     }
 }

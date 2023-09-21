@@ -13,7 +13,6 @@ import java.util.Map;
 */
 public class PostgresTable implements ITable {
     static DBConnector dbConnector;
-    Map<String, String> tableFields = new HashMap<>();
 
     // Карта отображений типов Java на типы данных в Postgres
     static Map<String,String> typeMatchingJavaToPostgres = new HashMap<>() {{
@@ -26,7 +25,7 @@ public class PostgresTable implements ITable {
     }
 
     public void createTable(Class parameterClass) {
-        Map<String,String> tableFields = new HashMap<>();
+        Map<String,String> tableFields;
         String tableName = MetaClassData.getClassName(parameterClass);
         tableFields = MetaClassData.getFields(parameterClass, this);
         String sqlQuery = new QueryConstructor().createTableQuery(tableName, tableFields);

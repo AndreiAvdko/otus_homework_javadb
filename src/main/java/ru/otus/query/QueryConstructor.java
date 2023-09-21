@@ -2,9 +2,6 @@ package ru.otus.query;
 
 import org.apache.commons.lang3.StringUtils;
 import ru.otus.db.DBConnector;
-import ru.otus.entity.Entity;
-
-import java.beans.Introspector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
@@ -16,9 +13,9 @@ public class QueryConstructor implements IQuery {
         for (String fieldName : tableFields.keySet()) {
             String fieldPostgresType = tableFields.get(fieldName);
             if (fieldName.equals("id")) {
-                sqlQuery+= " " + fieldName + " integer generated always as identity primary key,";
+                sqlQuery += " " + fieldName + " integer generated always as identity primary key,";
             } else {
-                sqlQuery+= " " + fieldName + " " + fieldPostgresType + ",";
+                sqlQuery += " " + fieldName + " " + fieldPostgresType + ",";
             }
         }
         sqlQuery = StringUtils.removeEnd(sqlQuery, ",");
@@ -107,7 +104,4 @@ public class QueryConstructor implements IQuery {
     public String currentGroupCurator (String groupName) {
         return String.format("select * from \"Curator\" join \"Group\" on \"Curator\".id = id_curator where \"Group\".name = '%s';", groupName);
     }
-
-
-
 }

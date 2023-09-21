@@ -13,7 +13,6 @@ public class DataGenerator {
     public static Faker faker = new Faker(new Locale("ru"));
 
     public static Map<String, String> generateFullNameData() {
-        Faker faker = new Faker(new Locale("ru"));
         Map <String, String> fullNameData = new HashMap<>();
         while(true) {
             String generateName = faker.name().fullName();
@@ -34,5 +33,4 @@ public class DataGenerator {
         }
         return fullNameData;
     }
-
 }

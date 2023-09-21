@@ -12,7 +12,7 @@ import java.util.*;
 
 public interface Entity {
     String[] toArray();
-    default public List<Entity> getAllEntity() throws SQLException {
+    default List<Entity> getAllEntity() throws SQLException {
         Class entityClass = this.getClass();
         List<Entity> entityList = new LinkedList<>();
         String selectAllQuery = new QueryConstructor().selectAllFromTableQuery(entityClass.getSimpleName());
@@ -40,13 +40,16 @@ public interface Entity {
         return entityList;
     }
 
-    default public JTable convertToJTable() throws Exception {
-        List<Entity> entitytList = this.getAllEntity();
-
+    default JTable convertToJTable() {
+        List<Entity> entitytList;
+        try {
+            entitytList = this.getAllEntity();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         Object[] headers = Arrays.stream(this.getClass().getDeclaredFields()).map(Field::getName).toArray(x -> new String[x]);
         Object[][] rows = new Object[entitytList.size()][];
 
-        String tableTitle = this.getClass().getSimpleName();
         if (!entitytList.isEmpty()) {
             for (int i = 0; i < entitytList.size(); i++) {
                 rows[i] = entitytList.get(i).toArray();
@@ -56,7 +59,7 @@ public interface Entity {
         return new JTable(rows, headers);
     }
 
-    default public Integer howMuchThisEntity() {
+    default Integer howMuchThisEntity() {
         return new QueryConstructor().howMuchEntityInTableQuery(this.getClass().getSimpleName());
     }
 }

@@ -44,10 +44,16 @@ public class Group implements Entity {
         return objectAsArray;
     }
 
-    public String getGroupCurator(String groupName) throws SQLException {
+    public String getGroupCurator(String groupName) {
         String query = new QueryConstructor().currentGroupCurator(groupName);
         ResultSet result = DBConnector.getDbConnector().executeQuery(query);
-        result.next();
-        return result.getString("fio");
+        String fio;
+        try {
+            result.next();
+            fio = result.getString("fio");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return fio;
     }
 }
