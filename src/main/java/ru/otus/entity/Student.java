@@ -11,10 +11,10 @@ import java.util.Random;
 @Data
 @AllArgsConstructor
 public class Student implements Entity {
-    int id;
-    int id_group;
-    String fio;
-    String sex;
+    private int id;
+    private int id_group;
+    private String fio;
+    private String sex;
 
     public Student() {
         Map<String, String> studentData = DataGenerator.generateFullNameData();

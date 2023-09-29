@@ -9,8 +9,8 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 public class Curator implements Entity {
-    int id;
-    String fio;
+    private int id;
+    private String fio;
 
     public Curator() {
         Map<String, String> studentData = DataGenerator.generateFullNameData();

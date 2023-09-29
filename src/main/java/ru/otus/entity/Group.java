@@ -15,9 +15,9 @@ import java.util.Random;
 @Data
 @AllArgsConstructor
 public class Group implements Entity {
-    int id;
-    int id_curator;
-    String name;
+    private int id;
+    private int id_curator;
+    private String name;
 
     public Group() {
         Random random = new Random();
